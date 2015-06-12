@@ -50,30 +50,38 @@ module.exports = React.createClass({
 
 	onArticlesReady: function (articles) {
 		var state = this.state,
-			start = 10;;
+			stop = 10,
+			moreArticlesLoaded = false;
 
-		if (_.isArray(state.articles)) {
+		if (state.articles.length > 0) {
 
-			start += state.articles.length;
+			stop += state.articles.length;
 			articles = state.articles.concat(articles);
+			moreArticlesLoaded = true;
 		}
 
 		this.setState({
-			start: 0,
-			stop: start,
-			articles: articles
+			stop: stop,
+			articles: articles,
+			moreArticlesLoaded: moreArticlesLoaded
 		});
 	},
 
 	render: function () {
 		var state = this.state,
 			articles = state.articles.slice(state.start, state.stop),
-			articleNodes = _.map(articles, articleMapper);
+			articleNodes = _.map(articles, articleMapper),
+			loadBtn = '';
+
+		if (state.showLoadMore) {
+
+			loadBtn = <a href="#" className="mic-load-more-articles">Load More Articles</a>;
+		}
 
 		return (
 			<div className="mic-article-list">
 				{articleNodes}
-				<a href="#" className="mic-load-more-articles">Load More Articles</a>
+				{loadBtn}
 			</div>
 		);
 	},
@@ -82,18 +90,30 @@ module.exports = React.createClass({
 		return {
 			start: 0,
 			stop: 0,
+			showLoadMore: true,
 			articles: []
 		};
 	},
 
 	loadMoreArticles: function (evt) {
-		var state = this.state;
-
-		this.setState({
-			stop: this.state.stop + 10
-		});
+		var state = this.state,
+			newStop = state.stop + 10,
+			isEndOfArticles = state.stop >= state.articles.length;
 
 		evt.preventDefault();
+
+		if (state.stop >= state.articles.length && state.moreArticlesLoaded !== true) {
+
+			this.fetchArticles('data/more-articles.json');
+			return;
+		}
+
+		this.setState({
+			stop: newStop,
+			showLoadMore: !(state.moreArticlesLoaded && newStop >= state.articles.length)
+		});
+
+		console.log(state.moreArticlesLoaded, newStop >= state.articles.length, state.moreArticlesLoaded && newStop >= state.articles.length);
 	},
 
 	componentDidMount: function() {
