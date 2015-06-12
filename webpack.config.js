@@ -1,4 +1,4 @@
-module.exports = {
+module.dd origin git@example.com:my_project.gitexports = {
     entry: './index.jsx',
     output: {
         filename: 'main.js',
