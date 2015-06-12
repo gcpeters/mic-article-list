@@ -112,7 +112,8 @@ module.exports = React.createClass({
 	},
 
 	getInitialState: function() {
-		var sortCol = localStorage.getItem('sortCol') || 'submitted',
+		var localStorage = window.localStorage,
+			sortCol = localStorage.getItem('sortCol') || 'submitted',
 			sortDir = localStorage.getItem('sortDir') || 'ASC';
 
 		return {
@@ -146,8 +147,23 @@ module.exports = React.createClass({
 		});
 	},
 
+	sortArticles: function (evt) {
+		var sortCol = _.last(evt.target.className.match(/article-([^-]+)-/)),
+			sortDir = this.state.sortDir === 'ASC' ? 'DESC' : 'ASC',
+			localStorage = window.localStorage;
+
+		localStorage.setItem('sortCol', sortCol);
+		localStorage.setItem('sortDir', sortDir);
+		
+		this.setState({
+			sortCol: sortCol,
+			sortDir: sortDir
+		});
+	},
+
 	componentDidMount: function() {
 		$('.mic-load-more-articles').on('click', this.loadMoreArticles);
+		$('.mic-article-words-col, .mic-article-submitted-col').on('click', this.sortArticles);
 
 		this.fetchArticles('data/articles.json');
 	}
