@@ -1,5 +1,27 @@
 /** @jsx React.DOM */
 
+/**
+ *
+ * Article List Component.
+ *
+ * I decided to implement the demo using webpack and React because I have wanted
+ * to use these technologies and I thought it would be a good opportunity.
+ * 
+ * For the most part I enojyed working with these, webpack was super easy to get
+ * up and running with, and provides and excellent dev experience with built in
+ * live reload including jsx and sass compilation.
+ *
+ * There is one major issue I see with my implementation, and it seems somewhat
+ * rooted in the React pattern of updating the state of the componenet and letting
+ * the shadow DOM decide how to manipulate the DOM. When loading articles after
+ * the list has been sorted, the next group of articles is interspersed with the
+ * original articles, subsequent loading of articles appends the new articles to 
+ * the bottom of the list as would be expected. Being new to React, there maybe
+ * somehting I am missing, in a production setting I would have worked to resolve
+ * this issue, there are multiple ways to do it but I did not see a way that didn't
+ * "break" the React pattern so I left it as is.
+ */
+
 'use strict';
 
 var React = require('React'),
@@ -33,6 +55,7 @@ function articleMapper (article, index) {
 }
 
 module.exports = React.createClass({
+	// Fetch articles using jQuery
 	fetchArticles: function (url) {
 		$.ajax({
 			url: url,
@@ -46,6 +69,7 @@ module.exports = React.createClass({
 		});
 	},
 
+	// When we get new data, update the components state, triggering a render
 	onArticlesReady: function (articles) {
 		var state = this.state,
 			stop = 10,
@@ -65,6 +89,7 @@ module.exports = React.createClass({
 		});
 	},
 
+	// Output the article list
 	render: function () {
 		var state = this.state,
 			articles = _.clone(state.articles).slice(state.start, state.stop),
@@ -103,6 +128,7 @@ module.exports = React.createClass({
 		);
 	},
 
+	// Performs sort based on current state
 	articleComparator: function (a, b) {
 		var state = this.state,
 			aArticle = state.sortDir === 'ASC' ? a : b,
@@ -123,6 +149,7 @@ module.exports = React.createClass({
 		return 0;
 	},
 
+	// Set defaults
 	getInitialState: function() {
 		var localStorage = window.localStorage,
 			sortCol = localStorage.getItem('sortCol') || 'submitted',
@@ -139,6 +166,7 @@ module.exports = React.createClass({
 		};
 	},
 
+	// Get more articles from cache ot the more-articles.json file
 	loadMoreArticles: function (evt) {
 		var state = this.state,
 			newStop = state.stop + 10,
@@ -161,6 +189,7 @@ module.exports = React.createClass({
 		});
 	},
 
+	// Sort the list
 	sortArticles: function (evt) {
 		var sortCol = _.last(evt.target.className.match(/article-([^-]+)-/)),
 			sortDir = this.state.sortDir === 'ASC' ? 'DESC' : 'ASC',
