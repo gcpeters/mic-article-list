@@ -1,0 +1,19 @@
+{
+  "name": "mic-article-list",
+  "version": "1.0.0",
+  "description": "Article lit for Mic dev test.",
+  "main": "webpack.config.js",
+  "dependencies": {
+    "webpack": "^1.9.10",
+    "webpack-dev-server": "^1.9.0",
+    "jsx-loader": "^0.13.2",
+    "node-libs-browser": "^0.5.2",
+    "react": "^0.13.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "GCP",
+  "license": "ISC"
+}
