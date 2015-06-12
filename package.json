@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Article lit for Mic dev test.",
   "main": "index.js",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/gcpeters/mic-article-list.git"
+  },
   "dependencies": {
     "jquery": "^2.1.4",
     "lodash": "^3.9.3",
