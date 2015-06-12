@@ -67,6 +67,10 @@ module.exports = React.createClass({
 	render: function () {
 		var state = this.state,
 			articles = _.clone(state.articles).slice(state.start, state.stop),
+			classNameMap = {
+				words: 'mic-article-words-col',
+				submitted: 'mic-article-submitted-col'
+			},
 			loadBtn = '',
 			articleNodes;
 
@@ -80,6 +84,7 @@ module.exports = React.createClass({
 			articles.sort(this.articleComparator);
 		}
 
+		classNameMap[state.sortCol] = [classNameMap[state.sortCol], ' mic-sorted-', state.sortDir].join('');
 		articleNodes = _.map(articles, articleMapper);
 
 		return (
@@ -87,8 +92,8 @@ module.exports = React.createClass({
 				<div className="mic-header-row">
 					<div className="mic-article-title-col">Unpublished Articles</div>
 					<div className="mic-article-author-col">Author</div>
-					<div className="mic-article-words-col">Words</div>
-					<div className="mic-article-submitted-col">Submitted</div>
+					<div className={classNameMap.words}>Words</div>
+					<div className={classNameMap.submitted}>Submitted</div>
 				</div>
 
 				{articleNodes}

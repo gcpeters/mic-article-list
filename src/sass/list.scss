@@ -56,6 +56,11 @@ article {
 	font-weight: bold;
 	padding: 1em;
 	text-transform: uppercase;
+
+	.mic-article-words-col,
+	.mic-article-submitted-col {
+		cursor: pointer;
+	}
 }
 
 .mic-article-title-col {
@@ -70,11 +75,6 @@ article {
 	width: 17.5%;
 }
 
-.mic-article-words-col,
-.mic-article-submitted-col {
-	cursor: pointer;
-}
-
 .mic-article-words-col {
 	width: 10%;
 	text-align: center;
@@ -84,4 +84,52 @@ article {
 	float: left;
 	margin-right: .5em;
 	width: 15%;
+}
+
+.mic-load-more-articles {
+	text-align: center;
+	padding: 1em;
+	display: block;
+}
+
+
+.mic-sorted-ASC,
+.mic-sorted-DESC {
+	position: relative;
+
+	&:after {
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;content: ' ';
+		display: block;
+		width: 0;
+		height: 0; 
+		float: right;
+		position: absolute;
+		top: 0.75em;
+		left: 6.5em;
+	}
+}
+
+.mic-sorted-ASC {
+
+	&:after {
+		border-bottom: 5px solid #fff;
+		
+	}
+
+	&.mic-article-submitted-col:after {
+		top: 0.75em;
+		left: 7em;
+	}
+}
+
+.mic-sorted-DESC {
+	&:after {
+		border-top: 5px solid #fff;
+	}
+
+	&.mic-article-submitted-col:after {
+		top: 0.75em;
+		left: 7em;
+	}
 }
