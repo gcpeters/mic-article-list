@@ -7,20 +7,22 @@ var React = require('React'),
 	_ = require('lodash'),
 	$ = require('jquery');
 
+var css = require('../sass/list.scss');
+
 function articleMapper (article, index) {
 
 	return (
 		<article>
 			<div className="mic-article-title-col">
-				<span className="mic-article-thumbnail">
-					<img src={article.image} />
-				</span>
-
-				<h3>{article.title}</h3>
+				<h3>
+					<img className="mic-article-thumbnail"
+						src={article.image} />
+					{article.title}
+				</h3>
 			</div>
 
 			<div className="mic-article-author-col">
-				{article.first_name} {article.last_name}
+				{article.profile.first_name} {article.profile.last_name}
 			</div>
 
 			<div className="mic-article-words-col">
@@ -80,6 +82,13 @@ module.exports = React.createClass({
 
 		return (
 			<div className="mic-article-list">
+				<div className="mic-header-row">
+					<div className="mic-article-title-col">Unpublished Articles</div>
+					<div className="mic-article-author-col">Author</div>
+					<div className="mic-article-words-col">Words</div>
+					<div className="mic-article-submitted-col">Submitted</div>
+				</div>
+
 				{articleNodes}
 				{loadBtn}
 			</div>
@@ -102,6 +111,7 @@ module.exports = React.createClass({
 
 		evt.preventDefault();
 
+		// If we've reached the end of the articles list and we haven't loaded more yet
 		if (state.stop >= state.articles.length && state.moreArticlesLoaded !== true) {
 
 			this.fetchArticles('data/more-articles.json');
@@ -110,10 +120,9 @@ module.exports = React.createClass({
 
 		this.setState({
 			stop: newStop,
+			// Show the load more button until we've loaded the more articles data and we've reached the end of them
 			showLoadMore: !(state.moreArticlesLoaded && newStop >= state.articles.length)
 		});
-
-		console.log(state.moreArticlesLoaded, newStop >= state.articles.length, state.moreArticlesLoaded && newStop >= state.articles.length);
 	},
 
 	componentDidMount: function() {

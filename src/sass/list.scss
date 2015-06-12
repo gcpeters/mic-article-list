@@ -1,0 +1,54 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+h3 {
+	margin: 0;
+}
+
+article {
+	background: #F8F8F8;
+
+	& > div {
+		box-sizing: border-box;
+		padding: .5em;
+	}
+}
+
+.mic-header-row, article {
+	height: 100%;
+	overflow: hidden;
+}
+
+.mic-header-row {
+	background: #B03E4D;
+	color: #fff;
+	font-size: 1.25em;
+}
+
+.mic-article-title-col {
+	float: left;
+	width: 55%;
+}
+
+.mic-article-author-col {
+	float: left;
+	width: 15%;
+}
+
+.mic-article-words-col {
+	float: left;
+	width: 15%;
+}
+
+.mic-article-submitted-col {
+	float: left;
+	width: 15%;
+}
+
+.mic-article-thumbnail {
+	float: left;
+	margin-right: .5em;
+	width: 25%;
+}
