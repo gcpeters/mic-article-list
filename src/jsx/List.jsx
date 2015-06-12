@@ -65,13 +65,16 @@ module.exports = React.createClass({
 	render: function () {
 		var state = this.state,
 			articles = state.articles.slice(state.start, state.stop),
-			articleNodes = _.map(articles, articleMapper),
-			loadBtn = '';
+			loadBtn = '',
+			articleNodes;
 
 		if (state.showLoadMore) {
 
 			loadBtn = <a href="#" className="mic-load-more-articles">Load More Articles</a>;
 		}
+
+		articles.sort(this.articleComparator);
+		articleNodes = _.map(articles, articleMapper)
 
 		return (
 			<div className="mic-article-list">
@@ -88,10 +91,35 @@ module.exports = React.createClass({
 		);
 	},
 
+	articleComparator: function (a, b) {
+		var state = this.state,
+			aArticle = state.sortDir === 'ASC' ? a : b,
+			bArticle = state.sortDir === 'ASC' ? b : a,
+			aField = state.sortCol === 'words' ? aArticle.words : new Date(aArticle.publish_at),
+			bField = state.sortCol === 'words' ? bArticle.words : new Date(bArticle.publish_at);
+
+		if (aField > bField) {
+
+			return 1;
+		}
+
+		if (aField < bField) {
+
+			return -1;
+		}
+
+		return 0;
+	},
+
 	getInitialState: function() {
+		var sortCol = localStorage.getItem('sortCol') || 'submitted',
+			sortDir = localStorage.getItem('sortDir') || 'ASC';
+
 		return {
 			start: 0,
 			stop: 0,
+			sortCol: sortCol,
+			sortDir: sortDir,
 			showLoadMore: true,
 			articles: []
 		};
