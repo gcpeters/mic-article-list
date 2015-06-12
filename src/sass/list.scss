@@ -1,14 +1,29 @@
 body {
+	font-family: Arial, sans-serif;
 	margin: 0;
 	padding: 0;
 }
 
 h3 {
+	font-size: 1em;
 	margin: 0;
 }
 
+a, a:link {
+	color: #1a587b;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #2574A1;
+}
+
 article {
-	background: #F8F8F8;
+	background: #f8f8f8;
+
+	&.mic-even-row {
+		background: #f4f4f4;
+	}
 
 	& > div {
 		border: solid 1px #eee;
@@ -37,8 +52,10 @@ article {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b03e4d', endColorstr='#812c38',GradientType=0 ); /* IE6-9 */
 
 	color: #fff;
-	font-size: 1.25em;
+	font-size: .75em;
+	font-weight: bold;
 	padding: 1em;
+	text-transform: uppercase;
 }
 
 .mic-article-title-col {

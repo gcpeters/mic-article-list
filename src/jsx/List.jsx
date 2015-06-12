@@ -4,21 +4,23 @@
 
 var React = require('React'),
 	moment = require('moment'),
+	css = require('../sass/list.scss'),
 	_ = require('lodash'),
 	$ = require('jquery');
 
-var css = require('../sass/list.scss');
+var DFLT_STOP = 10;
 
 function articleMapper (article, index) {
 	var authorName = [article.profile.first_name, article.profile.last_name].join(' '),
-		timeStr = moment(article.publish_at, 'YYYY-MM-DD hh:mm:ss').fromNow();
+		timeStr = moment(article.publish_at, 'YYYY-MM-DD hh:mm:ss').fromNow(),
+		className = index % 2 === 0 ? 'mic-odd-row' : 'mic-even-row';
 
 	return (
-		<article>
+		<article className={className}>
 			<div className="mic-article-title-col">
 				<h3>
 					<img className="mic-article-thumbnail" src={article.image} />
-					{article.title}
+					<a href={article.url}>{article.title}</a>
 				</h3>
 			</div>
 
@@ -64,7 +66,7 @@ module.exports = React.createClass({
 
 	render: function () {
 		var state = this.state,
-			articles = state.articles.slice(state.start, state.stop),
+			articles = _.clone(state.articles).slice(state.start, state.stop),
 			loadBtn = '',
 			articleNodes;
 
@@ -73,8 +75,12 @@ module.exports = React.createClass({
 			loadBtn = <a href="#" className="mic-load-more-articles">Load More Articles</a>;
 		}
 
-		articles.sort(this.articleComparator);
-		articleNodes = _.map(articles, articleMapper)
+		if (state.shouldSort) {
+
+			articles.sort(this.articleComparator);
+		}
+
+		articleNodes = _.map(articles, articleMapper);
 
 		return (
 			<div className="mic-article-list">
@@ -122,6 +128,7 @@ module.exports = React.createClass({
 			sortCol: sortCol,
 			sortDir: sortDir,
 			showLoadMore: true,
+			shouldSort: true,
 			articles: []
 		};
 	},
@@ -141,6 +148,7 @@ module.exports = React.createClass({
 		}
 
 		this.setState({
+			shouldSort: false,
 			stop: newStop,
 			// Show the load more button until we've loaded the more articles data and we've reached the end of them
 			showLoadMore: !(state.moreArticlesLoaded && newStop >= state.articles.length)
@@ -154,8 +162,9 @@ module.exports = React.createClass({
 
 		localStorage.setItem('sortCol', sortCol);
 		localStorage.setItem('sortDir', sortDir);
-		
+
 		this.setState({
+			shouldSort: true,
 			sortCol: sortCol,
 			sortDir: sortDir
 		});
