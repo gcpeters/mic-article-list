@@ -3,6 +3,6 @@
 'use strict'
 
 var React = require('react'),
-	Hello = require('./List');
+	List = require('./src/jsx/List');
 
-React.renderComponent(<Hello />, document.getElementById('content'));
+React.render(<List />, document.getElementById('content'));

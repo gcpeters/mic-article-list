@@ -2,17 +2,24 @@
   "name": "mic-article-list",
   "version": "1.0.0",
   "description": "Article lit for Mic dev test.",
-  "main": "webpack.config.js",
+  "main": "index.js",
   "dependencies": {
-    "webpack": "^1.9.10",
-    "webpack-dev-server": "^1.9.0",
-    "jsx-loader": "^0.13.2",
-    "node-libs-browser": "^0.5.2",
+    "jquery": "^2.1.4",
+    "lodash": "^3.9.3",
+    "moment": "^2.10.3",
     "react": "^0.13.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "http-server": "^0.8.0",
+    "jsx-loader": "^0.13.2",
+    "node-libs-browser": "^0.5.2",
+    "webpack": "^1.9.10",
+    "webpack-dev-server": "^1.9.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run serve | npm run dev",
+    "serve": "./node_modules/.bin/http-server -p 8080",
+    "dev": "webpack-dev-server --progress --colors --port 8090"
   },
   "author": "GCP",
   "license": "ISC"
