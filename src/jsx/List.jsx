@@ -13,6 +13,7 @@ var DFLT_STOP = 10;
 function articleMapper (article, index) {
 	var authorName = [article.profile.first_name, article.profile.last_name].join(' '),
 		timeStr = moment(article.publish_at, 'YYYY-MM-DD hh:mm:ss').fromNow(),
+		formattedDate = moment(new Date(article.publish_at)).format('MMMM Do YYYY, h:mm:ss a'),
 		className = index % 2 === 0 ? 'mic-odd-row' : 'mic-even-row';
 
 	return (
@@ -26,7 +27,7 @@ function articleMapper (article, index) {
 
 			<div className="mic-article-author-col">{authorName}</div>
 			<div className="mic-article-words-col">{article.words}</div>
-			<div className="mic-article-submitted-col">{timeStr}</div>
+			<div className="mic-article-submitted-col" title={formattedDate}>{timeStr}</div>
 		</article>
 	);
 }
