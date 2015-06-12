@@ -10,28 +10,21 @@ var React = require('React'),
 var css = require('../sass/list.scss');
 
 function articleMapper (article, index) {
+	var authorName = [article.profile.first_name, article.profile.last_name].join(' '),
+		timeStr = moment(article.publish_at, 'YYYY-MM-DD hh:mm:ss').fromNow();
 
 	return (
 		<article>
 			<div className="mic-article-title-col">
 				<h3>
-					<img className="mic-article-thumbnail"
-						src={article.image} />
+					<img className="mic-article-thumbnail" src={article.image} />
 					{article.title}
 				</h3>
 			</div>
 
-			<div className="mic-article-author-col">
-				{article.profile.first_name} {article.profile.last_name}
-			</div>
-
-			<div className="mic-article-words-col">
-				{article.words}
-			</div>
-
-			<div className="mic-article-submitted-col">
-				{moment(article.publish_at, 'YYYY-MM-DD hh:mm:ss').fromNow()}
-			</div>
+			<div className="mic-article-author-col">{authorName}</div>
+			<div className="mic-article-words-col">{article.words}</div>
+			<div className="mic-article-submitted-col">{timeStr}</div>
 		</article>
 	);
 }
